@@ -9,4 +9,4 @@ services:
     ports:
       - "8010:80"  # Mapeie a porta do host para a porta do Apache dentro do contêiner
     volumes:
-      - ../../server:/var/www/html  # Mapeie o diretório do seu projeto Laravel para o contêiner
+      - ../../server:/var/www/server  # Mapeie o diretório do seu projeto Laravel para o contêiner

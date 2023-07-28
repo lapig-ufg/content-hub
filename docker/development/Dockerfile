@@ -1,24 +1,22 @@
-# 2022 update
 FROM php:8.2-fpm
 
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/content-hub"
-ENV BRANCH="main"
-# Configurar o PKG_CONFIG_PATH para apontar para o diretório do libcurl
-ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
+ENV BRANCH="develop"
 
-# Definir as variáveis de ambiente CURL_CFLAGS e CURL_LIBS
-ENV CURL_CFLAGS=-I/usr/include \
- CURL_LIBS=-L/usr/lib/x86_64-linux-gnu-lcurl \
- LIBXML_CFLAGS=-I/path/to/libxml2/include \
- LIBXML_LIBS=-L/path/to/libxml2/lib-lxml2 \
- COMPOSER_ALLOW_SUPERUSER=1 \ 
- APP_ENV=development \
- APP_DEBUG=true 
+
+ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig \
+    CURL_CFLAGS=-I/usr/include \
+    CURL_LIBS=-L/usr/lib/x86_64-linux-gnu-lcurl \
+    LIBXML_CFLAGS=-I/path/to/libxml2/include \
+    LIBXML_LIBS=-L/path/to/libxml2/lib-lxml2 \
+    COMPOSER_ALLOW_SUPERUSER=1 \ 
+    APP_ENV=development \
+    APP_DEBUG=true 
 
 # setup user as root
 USER root
 
-WORKDIR /var/www/html
+WORKDIR /var/www/server
 
 # Install environment dependencies
 RUN apt-get update \
@@ -83,30 +81,29 @@ COPY ./.env /var/www/.env
 
 
 # setup composer and laravel
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} /tmp/app && \
+    cp -R /tmp/app/server /var/www/ && \
+    rm -Rf /tmp/app/
 
-
-RUN rm -rf index.nginx-debian.html && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB}:server .
-
-RUN composer install
-
-RUN composer dump-autoload && \
+RUN usermod -u 1000 www-data && \
+    chown www-data:www-data /var/www/ && \
+    chown -R www-data:www-data /var/www/server/* && \
+    chmod -R 775 /var/www/server/storage && \
+    chmod -R 775 /var/www/server/bootstrap/cache && \
+    chown www-data:www-data /var/www/server/bootstrap/cache && \
+    chown www-data:www-data /var/www/server/storage && \
+    chmod +x /var/www/post_deploy.sh && \
+    composer install && \
+    composer dump-autoload && \
     php artisan config:cache && \
     php artisan route:cache && \
-    chown www-data:www-data /var/www/ && \
-    chown -R www-data:www-data /var/www/html/* && \
-    chmod -R 775 /var/www/html/storage && \
-    chmod -R 775 /var/www/html/bootstrap/cache && \
-    chown www-data:www-data /var/www/html/bootstrap/cache && \
-    chown www-data:www-data /var/www/html/storage && \
-    chmod +x /var/www/post_deploy.sh && \
+    php artisan view:cache && \
     composer clear-cache
-
 
 EXPOSE 80
 
 
 CMD [ "sh", "/var/www/post_deploy.sh" ]
-# CMD php artisan serve --host=127.0.0.1 --port=9000
 
 
