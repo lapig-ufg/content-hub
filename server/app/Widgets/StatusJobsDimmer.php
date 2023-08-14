@@ -16,7 +16,7 @@ class StatusJobsDimmer extends AbstractWidget
 
     public function run()
     {
-        $json = json_decode(file_get_contents("http://download.lapig.iesa.ufg.br/status/jobs"));
+        $json = json_decode(file_get_contents("https://download.lapig.iesa.ufg.br/status/jobs?token=LAPIG"));
         return view('widgets.status_jobs_dimmer', array_merge($this->config, [
             'done'   => "$json->done",
             'failed'   => "$json->failed",
