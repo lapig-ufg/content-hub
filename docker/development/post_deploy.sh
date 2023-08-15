@@ -11,10 +11,7 @@ php artisan optimize:clear
 # start the application
 php-fpm -D && nginx -g "daemon off;"
 
-#Change permissions
-chown www-data:www-data /var/www/ && \
-chown -R www-data:www-data /var/www/server/* && \
 chmod -R 775 /var/www/server/storage && \
 chmod -R 775 /var/www/server/bootstrap/cache && \
 chown www-data:www-data /var/www/server/bootstrap/cache && \
-chown www-data:www-data /var/www/server/storage
+chown www-data:www-data /var/www/server/storage/*
