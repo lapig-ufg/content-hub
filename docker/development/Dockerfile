@@ -71,6 +71,8 @@ RUN apt-get update \
 
 
 COPY ./deploy/local.ini /usr/local/etc/php/local.ini
+COPY ./deploy/www.conf /usr/local/etc/php-fpm.d/www.conf
+
 COPY ./deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
 COPY ./post_deploy.sh /var/www/post_deploy.sh
 
@@ -84,25 +86,18 @@ COPY ./.env /var/www/.env
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} /tmp/app && \
     cp -R /tmp/app/server /var/www/ && \
-    rm -Rf /tmp/app/
+    rm -Rf /tmp/app/ && \
+    mkdir -p /usr/local/log/
 
 RUN usermod -u 1000 www-data && \
-    chown www-data:www-data /var/www/ && \
-    chown -R www-data:www-data /var/www/server/* && \
-    chmod -R 775 /var/www/server/storage && \
-    chmod -R 775 /var/www/server/bootstrap/cache && \
-    chown www-data:www-data /var/www/server/bootstrap/cache && \
-    chown www-data:www-data /var/www/server/storage && \
     chmod +x /var/www/post_deploy.sh && \
     composer install && \
-    composer dump-autoload && \
     php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \
     composer clear-cache
 
 EXPOSE 80
-
 
 CMD [ "sh", "/var/www/post_deploy.sh" ]
 
