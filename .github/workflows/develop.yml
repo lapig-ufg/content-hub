@@ -31,7 +31,7 @@ jobs:
       - name: Validate and Build
         run: |
           git pull origin develop
-          docker build -t ${{secrets.REGISTRYHOMOL}}/$application_name:${LAST_COMMIT_HASH} -f docker/homologation/Dockerfile . --no-cache
+          docker build -t ${{secrets.REGISTRYHOMOL}}/$application_name:${LAST_COMMIT_HASH} -t ${{secrets.REGISTRYHOMOL}}/$application_name:latest  -f docker/homologation/Dockerfile . --no-cache
           
 
       - name: Login to Docker Registry
