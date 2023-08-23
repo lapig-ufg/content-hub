@@ -109,7 +109,7 @@ jobs:
 
       - name: Send message to Discord
         run: |
-          if [[ "${{ job.status }}" == "success" && "$START_STATUS" == "204" && "$DELETE_STATUS" == "204" && "$create_status" == "201"  ]]; then
+          if [[ "${{ job.status }}" == "success" && "$START_STATUS" == "204" && "$DELETE_STATUS" == "204" && "$CREATE_STATUS" == "201"  ]]; then
             echo "avatar_url='${{vars.LAPIG_SUCCESS}}'" >> $GITHUB_ENV
           else
             echo "avatar_url='${{vars.LAPIG_ERROR}}'" >> $GITHUB_ENV
