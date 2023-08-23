@@ -109,11 +109,7 @@ jobs:
 
       - name: Send message to Discord
         run: |
-          if [[ "${{ job.status }}" == "success" && "$START_STATUS" == "204" && "$DELETE_STATUS" == "204" && "$create_status" == "201"  ]]; then
-            avatar_url="${{vars.LAPIG_SUCCESS}}"
-          else
-            avatar_url="${{vars.LAPIG_ERROR}}"
-          fi
+          avatar_url="${{vars.LAPIG_SUCCESS}}"
           discordDesc="Result: ${{ job.status }}\n" \
                       "Project: $LAPIG_PROJECT_NAME\n" \
                       "Commit: $LAPIG_LAST_COMMIT\n" \
@@ -128,10 +124,10 @@ jobs:
 
           discordFooter="${{ github.workflow }} (#${{ github.run_number }})"
           discordTitle="${{ github.workflow }} (build #${{ github.run_number }})"
-          urlWebhook="https://discord.com/api/webhooks/${{ secrets.DISCORD_KEY }}"
 
           curl -s -X POST "$urlWebhook" \
-            -d "content=$discordDesc" \
+            -d "content=https://discord.com/api/webhooks/${{ secrets.DISCORD_KEY }}" \
             -d "username=GitHub Actions" \
-            -d "avatar_url=$avatar_url"
+            -d "avatar_url=$avatar_url" \
+            -d "embeds=[{\"title\":\"$discordTitle\", \"description\":\"$discordDesc\", \"footer\":{\"text\":\"$discordFooter\"}}]"
         
