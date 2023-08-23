@@ -122,6 +122,5 @@ jobs:
           curl -s -X POST "https://discord.com/api/webhooks/${{ secrets.DISCORD_KEY }}" \
             -d "content=$discordDesc" \
             -d "username=GitHub Actions" \
-            -d "avatar_url=$avatar_url" \
-            -d "embeds=[{\"title\":\"$discordTitle\", \"description\":\"$discordDesc\", \"footer\":{\"text\":\"$discordFooter\"}}]"
-        
+            -d "avatar_url=$avatar_url" 
+            
