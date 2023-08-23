@@ -93,10 +93,13 @@ jobs:
           create_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -H 'Content-Type: application/json' -d @${{secrets.CONFIG_FILES}}$application_name.json -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/create?name=$application_name  2>/dev/null")  
           echo "Create Status: $create_status"
 
+          echo "CREATE_STATUS=$create_status" >> $GITHUB_ENV
+          echo "DELETE_STATUS=$delete_status" >> $GITHUB_ENV
       - name: Start Container
         run: |
           start_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://${{secrets.SERVER_HOMOL}}/containers/$application_name/start  2>/dev/null") 
           echo "Start Status: $start_status"
+          echo "START_STATUS=$start_status" >> $GITHUB_ENV
 
       - name: Send message to Telegram
         run: |
@@ -108,7 +111,7 @@ jobs:
         run: |
           
     
-          if [[ "${{ job.status }}" == "success" && "$start_status" == "204" && "$delete_status" == "201" && "$create_status" == "204"  ]]; then
+          if [[ "${{ job.status }}" == "success" && "$START_STATUS" == "204" && "$DELETE_STATUS" == "204" && "$create_status" == "201"  ]]; then
             avatar_url=${{vars.LAPIG_SUCCESS}}
           else
             avatar_url=${{vars.LAPIG_ERROR}}
