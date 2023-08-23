@@ -22,7 +22,7 @@ jobs:
           echo "LAST_COMMIT_HASH=$(git log --pretty=format:%h -n 1)" >> $GITHUB_ENV
 
       - name: Create version.json
-        run: echo "{\"commitId\": \"$LAST_COMMIT_HASH\"}" > version.json
+        run: echo '{"commitId":"$LAST_COMMIT_HASH"}' > version.json
 
       - name: Determine branch
         id: get_branch
