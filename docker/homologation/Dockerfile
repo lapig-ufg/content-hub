@@ -70,14 +70,13 @@ RUN apt-get update \
 
 
 
-COPY ./deploy/local.ini /usr/local/etc/php/local.ini
-COPY ./deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
-COPY ./post_deploy.sh /var/www/post_deploy.sh
+COPY ./docker/homologation/deploy/local.ini /usr/local/etc/php/local.ini
+COPY ./docker/homologation/deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/homologation/post_deploy.sh /var/www/post_deploy.sh
 
-# Development config files
-COPY ./ssh /root/.ssh
+
 COPY ./version.jso* /var/html/version.json
-COPY ./.env /var/www/.env
+
 
 
 # setup composer and laravel
