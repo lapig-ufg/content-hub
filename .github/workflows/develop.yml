@@ -119,8 +119,10 @@ jobs:
           echo "discordFooter='${{ github.workflow }} (#${{ github.run_number }})'" >> $GITHUB_ENV
           echo "discordTitle='${{ github.workflow }} (build #${{ github.run_number }})'" >> $GITHUB_ENV
 
-          curl -s -X POST "https://discord.com/api/webhooks/${{ secrets.DISCORD_KEY }}" \
-            -d "content=$discordDesc" \
-            -d "username=GitHub Actions" \
-            -d "avatar_url=$avatar_url" 
+          curl -H "Content-Type: application/json" -X POST -d '{\n \
+                  "content":"$discordDesc" \n \
+                  "username":"GitHub Actions" \n \
+                  "avatar_url="$avatar_url" \n \
+                  }
+            "https://discord.com/api/webhooks/${{ secrets.DISCORD_KEY }}"
             
