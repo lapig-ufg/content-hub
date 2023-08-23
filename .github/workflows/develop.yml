@@ -93,14 +93,10 @@ jobs:
           create_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -H 'Content-Type: application/json' -d @${{secrets.CONFIG_FILES}}$application_name.json -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/create?name=$application_name  2>/dev/null")  
           echo "Create Status: $create_status"
 
-          echo "create_status='$create_status'" >> $GITHUB_ENV
-          echo "delete_status='$delete_status'" >> $GITHUB_ENV
-
       - name: Start Container
         run: |
           start_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://${{secrets.SERVER_HOMOL}}/containers/$application_name/start  2>/dev/null") 
           echo "Start Status: $start_status"
-          echo "start_status='$start_status'" >> $GITHUB_ENV
 
       - name: Send message to Telegram
         run: |
