@@ -51,28 +51,28 @@ jobs:
       - name: Add SSH key to known_hosts
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -t rsa ${{secrets.SERVER_HOMOL_KNOWN}} >> ~/.ssh/known_hosts
+          ssh-keyscan -t rsa ${{secrets.SERVER_HOMOL_KNOWN}} >> ~/.ssh/known_hosts >/dev/null 2>&1
           chmod 644 ~/.ssh/known_hosts
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa >/dev/null 2>&1
           chmod 600 ~/.ssh/id_rsa
 
       - name: Pull Image on Server
         run: |
-            ssh ${{secrets.SERVER_HOMOL_SSH}} "docker pull ${{secrets.REGISTRYHOMOL}}/$application_name:latest"
+            ssh ${{secrets.SERVER_HOMOL_SSH}} "docker pull ${{secrets.REGISTRYHOMOL}}/$application_name:latest" >/dev/null 2>&1
           
 
       - name: Deploy Container
         run: |
           
-          delete_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X DELETE -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/$application_name?force=true")
+          delete_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X DELETE -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/$application_name?force=true") >/dev/null 2>&1
           echo "Delete Status: $delete_status"
                                                              
-          create_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -H 'Content-Type: application/json' -d '${{ vars.HOMOL_DOCKER_CONFIG }}' -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/create?name=$application_name" )
+          create_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -H 'Content-Type: application/json' -d '${{ vars.HOMOL_DOCKER_CONFIG }}' -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/create?name=$application_name" ) >/dev/null 2>&1
           echo "Create Status: $create_status"
 
       - name: Start Container
         run: |
-          start_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://${{secrets.SERVER_HOMOL}}/containers/$application_name/start")
+          start_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://${{secrets.SERVER_HOMOL}}/containers/$application_name/start") >/dev/null 2>&1
           echo "Start Status: $start_status"
 
       - name: Send message to Telegram
