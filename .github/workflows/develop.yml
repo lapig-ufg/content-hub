@@ -35,7 +35,7 @@ jobs:
           
 
       - name: Login to Docker Registry
-        run: docker login ${{ secrets.URL_PRIVATE_REGISTRY }} -u ${{ secrets.HARBOR_USER }} -p ${{ secrets.HARBOR_PASS }}
+        run: echo "${{ secrets.HARBOR_PASS }}" | docker login -u "${{ secrets.HARBOR_USER }}" --password-stdin "${{ secrets.URL_PRIVATE_REGISTRY }}"
 
       - name: Push Image to Registry
         run: |
