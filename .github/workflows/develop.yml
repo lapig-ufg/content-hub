@@ -67,7 +67,7 @@ jobs:
           delete_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X DELETE -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/$application_name?force=true") 2>/dev/null 
           echo "Delete Status: $delete_status"
                                                              
-          create_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -H 'Content-Type: application/json' -d '${{ vars.HOMOL_DOCKER_CONFIG }}' -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/create?name=$application_name" ) 2>/dev/null 
+          create_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -H 'Content-Type: application/json' -d @config/$application_name.json -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/create?name=$application_name" ) 2>/dev/null 
           echo "Create Status: $create_status"
 
       - name: Start Container
