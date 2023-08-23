@@ -112,9 +112,9 @@ jobs:
           
     
           if [[ "${{ job.status }}" == "success" && "$START_STATUS" == "204" && "$DELETE_STATUS" == "204" && "$create_status" == "201"  ]]; then
-            avatar_url=${{vars.LAPIG_SUCCESS}}
+            avatar_url="${{vars.LAPIG_SUCCESS}}"
           else
-            avatar_url=${{vars.LAPIG_ERROR}}
+            avatar_url="${{vars.LAPIG_ERROR}}"
           fi
           
           discordDesc="Result: ${{ job.status }}\n" \
