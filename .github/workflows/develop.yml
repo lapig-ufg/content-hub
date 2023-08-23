@@ -64,15 +64,15 @@ jobs:
       - name: Deploy Container
         run: |
           
-          delete_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X DELETE -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/$application_name?force=true") 2>/dev/null 
+          delete_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X DELETE -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/$application_name?force=true") > /dev/null 2>$1
           echo "Delete Status: $delete_status"
                                                              
-          create_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -H 'Content-Type: application/json' -d @config/$application_name.json -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/create?name=$application_name" ) 2>/dev/null 
+          create_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -H 'Content-Type: application/json' -d @config/$application_name.json -s -o /dev/null -w "%{http_code}"  http://${{secrets.SERVER_HOMOL}}/containers/create?name=$application_name" ) > /dev/null  2>/dev/null 
           echo "Create Status: $create_status"
 
       - name: Start Container
         run: |
-          start_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://${{secrets.SERVER_HOMOL}}/containers/$application_name/start") 2>/dev/null 
+          start_status=$(ssh ${{secrets.SERVER_HOMOL_SSH}} "curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://${{secrets.SERVER_HOMOL}}/containers/$application_name/start") > /dev/null 2>/dev/null 
           echo "Start Status: $start_status"
 
       - name: Send message to Telegram
