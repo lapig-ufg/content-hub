@@ -58,7 +58,7 @@ jobs:
 
       - name: Pull Image on Server
         run: |
-            ssh ${{secrets.SERVER_HOMOL_SSH}} "docker pull ${{secrets.REGISTRYHOMOL}}/$application_name:latest" >/dev/null 2>&1
+            ssh ${{secrets.SERVER_HOMOL_SSH}} "docker pull ${{secrets.REGISTRYHOMOL}}/$application_name:latest"
           
 
       - name: Deploy Container
