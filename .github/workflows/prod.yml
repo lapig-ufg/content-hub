@@ -28,7 +28,7 @@ jobs:
           echo "LAPIG_AUTHOR_EMAIL=$(git show -s --pretty=%ae)" >> $GITHUB_ENV
           echo "LAPIG_AUTHOR_DATE=$(git log -1 --format=%cd --date=local)" >> $GITHUB_ENV
           echo "LAPIG_PROJECT_NAME=$(git config --local remote.origin.url)" >> $GITHUB_ENV
-          echo "LAPIG_LAST_COMMIT=$(git show --summary | grep 'commit' | awk '{print \$2}')" >> $GITHUB_ENV
+          echo "LAPIG_LAST_COMMIT=$(git show --summary | grep 'commit' | awk '{print $2}')" >> $GITHUB_ENV
           echo "LAPIG_COMMIT_COMMENT=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
           echo "LAPIG_COMMIT_DATE=$(git show -s --format=%ci)" >> $GITHUB_ENV
           echo "LAPIG_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
@@ -119,5 +119,5 @@ jobs:
           echo "discordFooter='${{ github.workflow }} (#${{ github.run_number }})'" >> $GITHUB_ENV
           echo "discordTitle='${{ github.workflow }} (build #${{ github.run_number }})'" >> $GITHUB_ENV
 
-          curl -H "Content-Type: application/json" -X POST -d '{ "content":"$discordTitle", "embeds": [{"title":"$discordTitle","description":"$discordDesc", "footer":{"text":"$discordFooter"}}], "username":"GitHub Actions", "avatar_url":"$($avatar_url)" }' https://discord.com/api/webhooks/${{ secrets.DISCORD_KEY }}
+          curl -H "Content-Type: application/json" -X POST -d "{ \"content\":\"$discordTitle\", \"embeds": [{"title":"$discordTitle","description":"$discordDesc", "footer":{"text":"$discordFooter"}}], "username":"GitHub Actions", "avatar_url":"$($avatar_url)" }' https://discord.com/api/webhooks/${{ secrets.DISCORD_KEY }}
             
