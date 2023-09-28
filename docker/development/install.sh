@@ -7,6 +7,6 @@ else
     echo "Directory ./ssh does not exist!"
 fi
 
-docker-compose build 
+docker compose build 
 
-docker-compose up -d 
+docker compose up -d 

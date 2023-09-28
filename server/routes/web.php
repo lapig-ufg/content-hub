@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\FormController;
 use App\Models\Methodology;
 use App\Models\News;
 use App\Models\Team;
 use App\Models\Article;
 use App\Models\Highlight;
 
+use App\Models\UserAuthorized;
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Http\Client\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/api/form/upload', [FormController::class, 'store']);
 
 Route::get('/api/news/{lang}', function (string $lang) {
     return News::getTranslate($lang);
@@ -42,7 +48,6 @@ Route::get('/api/articles/{lang}', function (string $lang) {
 Route::get('/api/methodologies/{lang}', function (string $lang) {
     return Methodology::getTranslate($lang);
 });
-
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

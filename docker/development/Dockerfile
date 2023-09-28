@@ -9,8 +9,9 @@ ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig \
     CURL_LIBS=-L/usr/lib/x86_64-linux-gnu-lcurl \
     LIBXML_CFLAGS=-I/path/to/libxml2/include \
     LIBXML_LIBS=-L/path/to/libxml2/lib-lxml2 \
-    COMPOSER_ALLOW_SUPERUSER=1 \ 
-    APP_ENV=development \
+    COMPOSER_ALLOW_SUPERUSER=1 \
+    APP_URL=http://localhost:8010 \
+    APP_ENV=local \
     APP_DEBUG=true 
 
 # setup user as root
