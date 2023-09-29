@@ -7,10 +7,6 @@ else
     echo "Directory ./ssh does not exist!"
 fi
 
-cd ../../server
-composer install
-cd ../docker/development
+docker compose build
 
-docker compose build 
-
-docker compose up -d 
+docker compose up -d
