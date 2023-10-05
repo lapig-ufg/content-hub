@@ -5,8 +5,7 @@ ENV BRANCH="main"
 
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 \ 
-    APP_ENV=production \
-    APP_DEBUG=false 
+    APP_ENV=production
 
 # setup user as root
 USER root
@@ -38,7 +37,6 @@ RUN usermod -u 1000 www-data && \
     chmod -R 775 /var/www/server/bootstrap/cache && \
     chown -R www-data:www-data /var/www/server/bootstrap/cache && \
     chown -R www-data:www-data /var/www/server/storage && \
-
     chmod +x /var/www/post_deploy.sh && \
     composer install && \
     composer dump-autoload && \
