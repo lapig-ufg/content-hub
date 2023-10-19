@@ -1,17 +1,11 @@
-FROM php:8.2-fpm
+FROM registry.lapig.iesa.ufg.br/lapig-images-prod/content-hub:base as python-base
 
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/content-hub"
 ENV BRANCH="main"
 
 
-ENV PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig \
-    CURL_CFLAGS=-I/usr/include \
-    CURL_LIBS=-L/usr/lib/x86_64-linux-gnu-lcurl \
-    LIBXML_CFLAGS=-I/path/to/libxml2/include \
-    LIBXML_LIBS=-L/path/to/libxml2/lib-lxml2 \
-    COMPOSER_ALLOW_SUPERUSER=1 \ 
-    APP_ENV=production \
-    APP_DEBUG=false 
+ENV COMPOSER_ALLOW_SUPERUSER=1 \ 
+    APP_ENV=production
 
 # setup user as root
 USER root
@@ -76,8 +70,9 @@ COPY ./post_deploy.sh /var/www/post_deploy.sh
 
 # Development config files
 COPY ./ssh /root/.ssh
+
 COPY ./version.jso* /var/html/version.json
-COPY ./.env /var/www/.env
+
 
 
 # setup composer and laravel
@@ -91,10 +86,10 @@ RUN usermod -u 1000 www-data && \
     chown -R www-data:www-data /var/www/server/* && \
     chmod -R 775 /var/www/server/storage && \
     chmod -R 775 /var/www/server/bootstrap/cache && \
-    chown www-data:www-data /var/www/server/bootstrap/cache && \
-    chown www-data:www-data /var/www/server/storage && \
+    chown -R www-data:www-data /var/www/server/bootstrap/cache && \
+    chown -R www-data:www-data /var/www/server/storage && \
     chmod +x /var/www/post_deploy.sh && \
-    composer install --optimize-autoloader --no-dev && \
+    composer install && \
     composer dump-autoload && \
     php artisan config:cache && \
     php artisan route:cache && \

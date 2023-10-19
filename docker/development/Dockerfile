@@ -92,6 +92,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN usermod -u 1000 www-data && \
     chmod +x /var/www/post_deploy.sh && \
+    chown www-data:www-data /var/www/ && \
+    chown -R www-data:www-data /var/www/server/* && \
     composer install && \
     php artisan config:cache && \
     php artisan route:cache && \
