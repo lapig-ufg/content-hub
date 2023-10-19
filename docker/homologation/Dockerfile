@@ -13,17 +13,11 @@ USER root
 
 WORKDIR /var/www/server
 
-
-
-
 COPY ./docker/homologation/deploy/local.ini /usr/local/etc/php/conf.d/docker-fpm.ini
 COPY ./docker/homologation/deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/homologation/post_deploy.sh /var/www/post_deploy.sh
 
-
 COPY ./version.jso* /var/html/version.json
-
-
 
 # setup composer and laravel
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
