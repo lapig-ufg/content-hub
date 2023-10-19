@@ -12,13 +12,64 @@ USER root
 
 WORKDIR /var/www/server
 
+# Install environment dependencies
+RUN apt-get update \
+	# gd
+	&& apt-get install -y build-essential \
+         openssl \
+         nginx \
+         libfreetype6-dev \
+         libjpeg-dev \
+         libpng-dev \
+         libwebp-dev \
+         zlib1g-dev \
+         libzip-dev \
+         gcc \
+         g++ \
+         make \
+         nano \
+         unzip \
+         curl \
+         git \
+         jpegoptim \
+         optipng \
+         pngquant \
+         gifsicle \
+         locales \
+         libonig-dev  \
+         libpq-dev \
+        libcurl4-openssl-dev \
+        libxml2-dev \
+    && docker-php-ext-configure gd  \
+	&& docker-php-ext-install gd \
+	# gmp
+	&& apt-get install -y --no-install-recommends libgmp-dev libxml2-dev \
+	&& docker-php-ext-install gmp \
+	# pgsql
+	&& docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+        && docker-php-ext-install pdo pdo_pgsql pgsql mbstring \
+        && docker-php-ext-install curl \
+	# opcache
+	&& docker-php-ext-enable opcache \
+	# exif
+    && docker-php-ext-install exif \
+    && docker-php-ext-install sockets \
+    && docker-php-ext-install pcntl \
+    && docker-php-ext-install bcmath \
+	# zip
+	&& docker-php-ext-install zip \
+	&& apt-get autoclean -y \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& rm -rf /tmp/pear/
 
 
 
-COPY ./docker/production/deploy/local.ini /usr/local/etc/php/local.ini
-COPY ./docker/production/deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
-COPY ./docker/production/post_deploy.sh /var/www/post_deploy.sh
+COPY ./deploy/local.ini /usr/local/etc/php/conf.d/docker-fpm.ini
+COPY ./deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
+COPY ./post_deploy.sh /var/www/post_deploy.sh
 
+# Development config files
+COPY ./ssh /root/.ssh
 
 COPY ./version.jso* /var/html/version.json
 

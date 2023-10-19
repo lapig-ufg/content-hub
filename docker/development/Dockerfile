@@ -71,7 +71,7 @@ RUN apt-get update \
 
 
 
-COPY ./deploy/local.ini /usr/local/etc/php/local.ini
+COPY ./deploy/local.ini /usr/local/etc/php/conf.d/docker-fpm.ini
 COPY ./deploy/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 COPY ./deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
