@@ -16,7 +16,7 @@ WORKDIR /var/www/server
 
 
 
-COPY ./docker/homologation/deploy/local.ini /usr/local/etc/php/local.ini
+COPY ./docker/homologation/deploy/local.ini /usr/local/etc/php/conf.d/docker-fpm.ini
 COPY ./docker/homologation/deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/homologation/post_deploy.sh /var/www/post_deploy.sh
 
