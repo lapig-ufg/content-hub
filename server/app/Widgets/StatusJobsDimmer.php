@@ -3,7 +3,6 @@
 namespace App\Widgets;
 
 use Arrilot\Widgets\AbstractWidget;
-use Mockery\Undefined;
 
 class StatusJobsDimmer extends AbstractWidget
 {

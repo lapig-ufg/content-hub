@@ -185,7 +185,7 @@ return [
         // The allowed mimetypes to be uploaded through the media-manager.
         // 'allowed_mimetypes' => '*', //All types can be uploaded
         'allowed_mimetypes' => [
-          'image/jpeg',
+          //'image/jpeg',
           'image/png',
           'image/gif',
           'image/bmp',
