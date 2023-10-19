@@ -29,6 +29,8 @@ Route::get('/', function () {
 
 Route::post('/api/form/upload', [FormController::class, 'store']);
 
+Route::get('/api/form/downlaod', [FormController::class, 'download']);
+
 Route::get('/api/news/{lang}', function (string $lang) {
     return News::getTranslate($lang);
 });

@@ -17,7 +17,8 @@ class Highlight extends Model
         'title',
         'description',
         'image',
-        'url',
+        'file_en',
+        'file_pt'
     ];
 
     public static function getTranslate(string $lang)

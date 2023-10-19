@@ -47,4 +47,9 @@ class FormController extends Controller
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
+
+    public function download()
+    {
+        return false;
+    }
 }
