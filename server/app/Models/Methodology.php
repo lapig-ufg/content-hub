@@ -12,12 +12,12 @@ class Methodology extends Model
 
     protected $translatable = ['title', 'description'];
     protected $table = "methodologies";
-
     protected $fillable = [
         'title',
-        'description',
-        'file',
         'image',
+        'file_pt',
+        'file_en',
+        'description',
     ];
 
     public static function getTranslate(string $lang)
