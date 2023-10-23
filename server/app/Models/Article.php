@@ -18,7 +18,8 @@ class Article extends Model
         'description',
         'authors',
         'image',
-        'url',
+        'file_pt',
+        'file_en',
     ];
 
     public static function getTranslate(string $lang)

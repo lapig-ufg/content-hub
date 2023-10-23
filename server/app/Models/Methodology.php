@@ -31,7 +31,16 @@ class Methodology extends Model
                 $methodology[$translation->column_name] = $translation->value;
             }
 
-            unset($methodology->translations);
+            if($lang == "en")
+            {
+                $methodology["file"] = $methodology->file_en;
+            }
+            else
+            {
+                $methodology["file"] = $methodology->file_pt;
+            }
+
+            unset($methodology->translations, $methodology->file_pt, $methodology->file_en);
         }
 
         return $methodologies;
