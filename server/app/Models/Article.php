@@ -18,7 +18,8 @@ class Article extends Model
         'description',
         'authors',
         'image',
-        'url',
+        'file_pt',
+        'file_en',
     ];
 
     public static function getTranslate(string $lang)
@@ -32,7 +33,16 @@ class Article extends Model
                 $article[$translation->column_name] = $translation->value;
             }
 
-            unset($article->translations);
+            if($lang == "en")
+            {
+                $article["file"] = $article->file_en;
+            }
+            else
+            {
+                $article["file"] = $article->file_pt;
+            }
+
+            unset($article->translations, $article->file_pt, $article->file_en);
         }
 
         return $articles;
