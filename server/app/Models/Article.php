@@ -10,16 +10,15 @@ class Article extends Model
 {
     use HasFactory, Translatable;
 
-    protected $translatable = ['title', 'description'];
+    protected $translatable = ['title', 'abstract'];
     protected $table = "articles";
 
     protected $fillable = [
         'title',
-        'description',
+        'abstract',
         'authors',
         'image',
-        'file_pt',
-        'file_en',
+        'doi',
     ];
 
     public static function getTranslate(string $lang)
@@ -33,16 +32,7 @@ class Article extends Model
                 $article[$translation->column_name] = $translation->value;
             }
 
-            if($lang == "en")
-            {
-                $article["file"] = $article->file_en;
-            }
-            else
-            {
-                $article["file"] = $article->file_pt;
-            }
-
-            unset($article->translations, $article->file_pt, $article->file_en);
+            unset($article->translations);
         }
 
         return $articles;
