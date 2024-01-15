@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FormController;
+use App\Models\FAQ;
 use App\Models\Methodology;
 use App\Models\News;
 use App\Models\Team;
@@ -49,6 +50,10 @@ Route::get('/api/articles/{lang}', function (string $lang) {
 
 Route::get('/api/methodologies/{lang}', function (string $lang) {
     return Methodology::getTranslate($lang);
+});
+
+Route::get('/api/FAQ/{lang}', function (string $lang) {
+    return FAQ::getTranslate($lang);
 });
 
 Route::group(['prefix' => 'admin'], function () {
