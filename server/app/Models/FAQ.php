@@ -14,6 +14,7 @@ class FAQ extends Model
     protected $table = "faq";
 
     protected $fillable = [
+        'sequence',
         'question',
         'answer',
     ];
