@@ -52,7 +52,11 @@ Route::get('/api/methodologies/{lang}', function (string $lang) {
     return Methodology::getTranslate($lang);
 });
 
-Route::get('/api/FAQ/{lang}', function (string $lang) {
+Route::get('/api/popup/{lang}', function (string $lang) {
+    return FAQ::getTranslate($lang);
+});
+
+Route::get('/api/faq/{lang}', function (string $lang) {
     return FAQ::getTranslate($lang);
 });
 
