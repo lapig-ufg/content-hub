@@ -64,9 +64,9 @@ RUN apt-get update \
 
 
 
-COPY ./docker/production/deploy/local.ini /usr/local/etc/php/conf.d/docker-fpm.ini
-COPY ./docker/production/deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
-COPY ./docker/production/post_deploy.sh /var/www/post_deploy.sh
+COPY ./docker/prod/deploy/local.ini /usr/local/etc/php/conf.d/docker-fpm.ini
+COPY ./docker/prod/deploy/conf.d/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/prod/post_deploy.sh /var/www/post_deploy.sh
 
 # Development config files
 
