@@ -1,4 +1,4 @@
-FROM registry.lapig.iesa.ufg.br/lapig-images-prod/content-hub:base as python-base
+FROM lapig/content_hub:base AS python-base
 
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/content-hub"
 ENV BRANCH="main"

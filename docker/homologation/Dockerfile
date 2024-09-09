@@ -1,4 +1,4 @@
-FROM registry.lapig.iesa.ufg.br/lapig-images-homol/content-hub:base as python-base
+FROM lapig/content_hub:base AS python-base
 
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/content-hub"
 ENV BRANCH="develop"
@@ -23,17 +23,11 @@ COPY ./version.jso* /var/html/version.json
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} /tmp/app && \
     cp -R /tmp/app/server /var/www/ && \
-    rm -Rf /tmp/app/
+    rm -Rf /tmp/app/ && \
+    chown -R www-data:www-data /var/www/ 
+    
 
-RUN usermod -u 1000 www-data && \
-    chown www-data:www-data /var/www/ && \
-    chown -R www-data:www-data /var/www/server/* && \
-    chmod -R 775 /var/www/server/storage && \
-    chmod -R 775 /var/www/server/bootstrap/cache && \
-    chown -R www-data:www-data /var/www/server/bootstrap/cache && \
-    chown -R www-data:www-data /var/www/server/storage && \
-
-    chmod +x /var/www/post_deploy.sh && \
+RUN chmod +x /var/www/post_deploy.sh && \
     composer install && \
     composer dump-autoload && \
     php artisan config:cache && \
